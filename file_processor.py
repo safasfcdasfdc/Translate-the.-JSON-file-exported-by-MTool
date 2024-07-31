@@ -1,4 +1,4 @@
-# file_processor.py
+#file_processor.py
 
 import json
 import logging
@@ -20,17 +20,26 @@ def process_translated_texts(translator, texts):
         translated_texts = [item for sublist in translated_texts for item in sublist]
     return translated_texts
 
+# 增强 process_file 函数中的日志记录
 def process_file(file_path, token_bucket, progress_path, config, batch_size=1):
     global translations
     with open(file_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
-
+    
+    # 增加日志记录
+    logging.info(f"加载文件: {file_path}")
+    
     progress_translations = load_progress_from_log(progress_path)
     translations.update(progress_translations)
-
+    
+    # 确认任务加载正确
     tasks = [(str(i+1), key, value) for i, (key, value) in enumerate(data.items()) if key == value and str(i+1) not in progress_translations and contains_japanese(key)]
-    print(f"任务总数：{len(tasks)}")
-
+    logging.info(f"任务总数：{len(tasks)}")
+    
+    # 确认是否加载到任务
+    if not tasks:
+        logging.warning("未能加载到任何任务，请检查任务条件和过滤函数。")
+    
     translator = None
     custom_processing_instance = None
 
@@ -44,17 +53,19 @@ def process_file(file_path, token_bucket, progress_path, config, batch_size=1):
         for name, translator_cls in sorted_translators:
             if api_configs.get(name, {}).get('enable', False):
                 translator = translator_cls(config)
+                logging.info(f"初始化翻译模块: {name}")
                 break
 
     if config['Web_Translation']:
         web_configs = config.get('Web_Translation_config', {})
-        web_translators = [
+        translators = [
             ('Web_caiyun', CaiyunTranslator)
         ]
-        sorted_web_translators = sorted(web_translators, key=lambda x: web_configs.get(x[0], {}).get('priority', 100))
-        for name, translator_cls in sorted_web_translators:
+        sorted_translators = sorted(translators, key=lambda x: web_configs.get(x[0], {}).get('priority', 100))
+        for name, translator_cls in sorted_translators:
             if web_configs.get(name, {}).get('enable', False):
                 translator = translator_cls(config)
+                logging.info(f"初始化翻译模块: {name}")
                 break
 
     custom_translation_config = config.get('custom_translation', {})
@@ -90,9 +101,6 @@ def process_file(file_path, token_bucket, progress_path, config, batch_size=1):
                 finally:
                     progress.update(1)
 
-    # 调试打印，确认 data 字典内容
-    print(f"最终数据: {data}")
-
     with open(file_path, 'w', encoding='utf-8') as file:
         json.dump(data, file, ensure_ascii=False, indent=4)
     
@@ -104,3 +112,4 @@ def process_file(file_path, token_bucket, progress_path, config, batch_size=1):
         logging.info(f"进度文件已删除: {progress_path}")
 
     return tasks, data
+
