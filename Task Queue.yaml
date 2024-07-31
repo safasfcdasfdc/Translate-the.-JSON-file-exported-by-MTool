@@ -1,0 +1,15 @@
+tasks:
+  - Task_sequence: 1
+    file_processed_path: "测试/1.json"
+    translation_module: 'auto'
+    batch_size: 70
+    Multiple_text_tasks: 3
+    Single_text_tasks: 3
+    completed: false
+  - Task_sequence: 2
+    file_processed_path: "测试/2.json"
+    translation_module: 'auto'
+    batch_size: 70
+    Multiple_text_tasks: 3
+    Single_text_tasks: 3
+    completed: false
