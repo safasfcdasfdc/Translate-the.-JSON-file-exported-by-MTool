@@ -1,3 +1,4 @@
+
 import logging
 import sys
 
@@ -28,11 +29,20 @@ def setup_logging(config):
             handlers=logging_handlers
         )
     else:
-        # 当 console_output 为 False 时，只显示任务进度信息
+        # 当 enable_logging 为 False 时，禁用所有控制台输出
         logging.basicConfig(
-            level=logging.INFO,
-            format='%(message)s',  # 仅显示信息，不显示日志格式
-            handlers=[logging.StreamHandler(sys.stdout)]
+            level=logging.CRITICAL,  # 设置为最高级别，避免任何日志输出
+            format='%(message)s',
+            handlers=[]
         )
     
     return logging_handlers
+
+# 调用 setup_logging 函数，传递配置字典
+config = {
+    'enable_logging': False,
+    'console_output': False,
+    'log_file_path': 'logfile.log'
+}
+
+setup_logging(config)
