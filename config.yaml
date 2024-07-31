@@ -1,0 +1,133 @@
+# 是否使用网页翻译功能
+Web_Translation: true
+# 是否使用翻译服务API
+API_translation: true
+# 循环任务控制
+recurring_task: true
+# 请求速率控制
+request_rate: true
+# 多行翻译控制，禁用为逐行翻译
+Multiple_text: true
+# 是否输出日志文件
+enable_logging: false
+# 是否将日志打印在控制台
+console_output: false
+# 输出的日志文件名称
+log_file_path: logfile.log
+ 
+Web_Translation_config:
+  Web_caiyun:
+    # 翻译服务名称
+    translator_type: 'caiyun_web'
+    # 是否启用彩云网页翻译功能
+    enable: true
+    # 优先级，数字越小越优先，0为最高优先级
+    priority: 0
+    # 用户token信息
+    token: "token:"
+    # 用户浏览器ID
+    bid: ""
+    # 加密翻译请求
+    cipher_key: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789=.+-_/"
+    # 解密翻译结果
+    normal_key: "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm0123456789=.+-_/"
+    # 一秒请求限制上限
+    capacity: 6
+    # 一秒速率限制
+    fill_rate: 4
+    # 异常请求计数，达到规定值暂停请求
+    request_exception_count: 10
+    # 暂停请求秒数
+    request_exception: 10
+    # 控制打包多少行
+    batch_size: 70
+    # 控制循环执行多少次多行翻译（优先执行，只有设置为零或空才能禁用多行翻译）
+    Multiple_text_tasks: 2
+    # 控制循环执行多少次单行翻译
+    Single_text_tasks: 2
+
+  custom_web_Translation:
+    # 翻译服务名称
+    translator_type: 'custom_web'
+    # 是否启用自定义网页翻译功能（优先级别最低）
+    enable: false
+    # 优先级，数字越小越优先，0为最高优先级
+    priority: 100
+    # 自定义网页翻译脚本文件路径
+    script_file_path: ""
+    # 可选的特殊处理模块路径
+    processing_script_path: ""  
+
+    
+
+
+API_translation_config:
+  API_tencent:
+    # 翻译服务名称
+    translator_type: 'API_tencent'
+    # 是否启用腾讯API翻译功能
+    enable: true
+    # 优先级，数字越小越优先，0为最高优先级
+    priority: 10
+    # 腾讯API翻译secret_id
+    secret_id: ""
+    # 腾讯API翻译备用secret_id
+    secret_id2: ""
+    # 腾讯API翻译secret_key
+    secret_key: ""
+    # 腾讯API翻译备用secret_key
+    secret_key2: ""
+    # 腾讯API翻译地区
+    region: "ap-guangzhou"
+    # 一秒请求限制上限
+    capacity: 5
+    # 一秒速率限制
+    fill_rate: 3
+    # 异常请求计数，达到规定值暂停请求
+    request_exception_count: 10
+    # 暂停请求秒数
+    request_exception: 10
+    # 控制打包多少行
+    batch_size: 100
+    # 控制循环执行多少次多行翻译（优先执行）
+    Multiple_text_tasks: 2
+    # 控制循环执行多少次单行翻译
+    Single_text_tasks: 2
+
+  API_caiyun:
+    # 翻译服务名称
+    translator_type: 'API_caiyun'
+    # 是否启用彩云API翻译功能
+    enable: false
+    # 优先级，数字越小越优先，0为最高优先级
+    priority: 11
+    # 彩云API翻译token
+    token: ""
+    # 彩云API翻译备用token
+    token2: ""
+    # 一秒请求限制上限
+    capacity: 8
+    # 一秒速率限制
+    fill_rate: 5
+    # 异常请求计数，达到规定值暂停请求
+    request_exception_count: 10
+    # 暂停请求秒数
+    request_exception: 10
+    # 控制打包多少行
+    batch_size: 5
+    # 控制循环执行多少次多行翻译（优先执行）
+    Multiple_text_tasks: 1
+    # 控制循环执行多少次单行翻译
+    Single_text_tasks: 2
+
+  custom_api_Translation:
+    # 翻译服务名称
+    translator_type: 'custom_api'
+    # 是否启用自定义API接口翻译功能（优先级别最低）
+    enable: false
+    # 优先级，数字越小越优先，0为最高优先级
+    priority: 200
+    # 自定义API接口翻译脚本文件路径
+    script_file_path: ""
+    # 可选的特殊处理模块路径
+    processing_script_path: ""  
